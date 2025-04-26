@@ -6,7 +6,7 @@ import ActionInput from '@/components/ActionInput';
 import CharacterSheet from '@/components/CharacterSheet';
 import GameControls from '@/components/GameControls';
 import CharacterCreation from '@/components/CharacterCreation';
-import { useToast } from '@/components/ui/toast';
+import { useToast } from '@/hooks/use-toast';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
 
 const GameInterface: React.FC = () => {
@@ -41,7 +41,11 @@ const GameInterface: React.FC = () => {
   };
 
   if (!state.gameStarted || !state.hasCharacter) {
-    return <CharacterCreation onCreateCharacter={(character) => state.createCharacter(character)} />;
+    return <CharacterCreation onCreateCharacter={(character) => {
+      state.character = character;
+      state.hasCharacter = true;
+      state.gameStarted = true;
+    }} />;
   }
 
   return (
